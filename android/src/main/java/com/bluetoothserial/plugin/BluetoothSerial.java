@@ -42,11 +42,11 @@ import java.util.Set;
         }
 )
 public class BluetoothSerial extends Plugin {
-    private static final String ERROR_ADDRESS_MISSING = "Propriedade endereço do dispositivo é obrigatória.";
-    private static final String ERROR_DEVICE_NOT_FOUND = "Dispositivo não encontrado.";
-    private static final String ERROR_CONNECTION_FAILED = "Falha ao conectar ao dispositivo.";
-    private static final String ERROR_DISCONNECT_FAILED = "Falha ao desconectar do dispositivo.";
-    private static final String ERROR_WRITING= "Falha ao enviar dados ao dispositivo.";
+    private static final String ERROR_ADDRESS_MISSING = "Address not provided.";
+    private static final String ERROR_DEVICE_NOT_FOUND = "Device not found.";
+    private static final String ERROR_CONNECTION_FAILED = "Connection failed.";
+    private static final String ERROR_DISCONNECT_FAILED = "Disconnect failed.";
+    private static final String ERROR_WRITING= "Writing data failed.";
 
     private BluetoothAdapter bluetoothAdapter;
 
@@ -374,15 +374,20 @@ public class BluetoothSerial extends Plugin {
     private void enableBluetooth(PluginCall call) {
       if(!hasRequiredPermissions()) {
         requestPermissionForAliases(getPermissionAliases(), call, "checkPermission");
+      } else if (isEnabled()) {
+         resolveEnableBluetooth(call, true);
+         return;
+     }
+    }
+
+    @PermissionCallback
+    private void checkPermission(PluginCall call) {
+      Boolean permissionGranted = hasRequiredPermissions();
+      if (permissionGranted) {
         resolveEnableBluetooth(call, false);
-        return;
+      } else {
+        call.reject("Permission is required to use Bluetooth");
       }
-      if (isEnabled()) {
-        resolveEnableBluetooth(call, true);
-        return;
-      }
-
-
     }
 
     private void resolveEnableBluetooth(PluginCall call, boolean enabled) {
