@@ -469,5 +469,7 @@
       ]
     }
   ],
-  "enums": []
+  "enums": [],
+  "typeAliases": [],
+  "pluginConfigs": []
 }

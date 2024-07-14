@@ -84,8 +84,6 @@ var capacitorBluetoothSerialPlugin = (function (exports, core) {
 
     exports.BluetoothSerial = BluetoothSerial;
 
-    Object.defineProperty(exports, '__esModule', { value: true });
-
     return exports;
 
 })({}, capacitorExports);
